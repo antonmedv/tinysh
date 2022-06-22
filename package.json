@@ -4,7 +4,7 @@
   "description": "Tiny spawn wrapper",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "PATH=$(env -i bash -c 'echo $PATH') ln -fs /bin/echo $(pwd)/node_modules/.bin/e && node test.js && rm $(pwd)/node_modules/.bin/e"
   },
   "files": [
     "index.js"
