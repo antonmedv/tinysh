@@ -1,16 +1,12 @@
 const cp = require('child_process')
 
-module.exports = new Proxy(function() {}, {
-  apply(target, thisArg, argArray) {
-    return new Proxy(argArray[0] || {}, {
+module.exports = new Proxy(() => {}, {
+  apply: (target, thisArg, [defaults = {}]) =>
+    new Proxy(defaults, {
       get: (target, bin) => function (...args) {
-        const self = this.__proto__ === Object.prototype ? {...this} : target
-        const out = cp.spawnSync(bin, args, self)
+        const out = cp.spawnSync(bin, args, this.__proto__ === Object.prototype ? this : target)
         return Object.assign(new String(out.stdout), out)
       }
-    })
-  },
-  get(t, key) {
-    return module.exports()[key]
-  }
+    }),
+  get: (_, key) => module.exports()[key]
 })

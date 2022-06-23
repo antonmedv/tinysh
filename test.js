@@ -1,8 +1,8 @@
 const assert = require('assert/strict')
-const {echo, tr, grep} = require('.')
 const process = require('process')
 const path = require('path')
 const url = require('url')
+const {echo, tr, grep} = require('.')
 
 assert.equal(echo('foo').toString(), 'foo\n')
 assert.equal(tr.call({input: 'bar'}, '[a-z]', '[A-Z]').toString(), 'BAR')
